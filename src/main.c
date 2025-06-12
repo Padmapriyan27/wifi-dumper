@@ -1,31 +1,76 @@
+// SPDX-License-Identifier: MIT License
+/*
+ * wifi_dumper - Windows Wi-Fi credential dumper (simulation tool)
+ *
+ * This utility uses netsh commands to extract Wi-Fi configuration,
+ * profiles, passwords, and interfaces and writes them to a text file.
+ *
+ * Author: 0xD4rkEYe
+ */
+
 #include "..\include\wifi_dumper.h"
 
-extern void run_interfaces(struct Command *);
-extern void run_profiles(struct Command *);
-extern void run_drivers(struct Command *);
-extern void run_networks(struct Command *);
-extern void run_dump_profiles(struct Command *);
-extern void run_hostednetwork(struct Command *);
-extern void run_autoconfig(struct Command *);
-extern void run_filters(struct Command *);
+extern void run_interfaces(struct Command *cmd);
+extern void run_profiles(struct Command *cmd);
+extern void run_drivers(struct Command *cmd);
+extern void run_networks(struct Command *cmd);
+extern void run_dump_profiles(struct Command *cmd);
+extern void run_hostednetwork(struct Command *cmd);
+extern void run_autoconfig(struct Command *cmd);
+extern void run_filters(struct Command *cmd);
 
 int main(void)
 {
         struct Command commands[] = {
-            {"Show Interfaces", "netsh wlan show interfaces", run_interfaces},
-            {"Show Profiles", "netsh wlan show profiles", run_profiles},
-            {"Show Drivers", "netsh wlan show drivers", run_drivers},
-            {"Show Networks", "netsh wlan show networks", run_networks},
-            {"Dump Saved Profile Passwords", NULL, run_dump_profiles},
-            {"Show Hosted Network", "netsh wlan show hostednetwork", run_hostednetwork},
-            {"Show Auto Config", "netsh wlan show autoconfig", run_autoconfig},
-            {"Show Filters", "netsh wlan show filters", run_filters},
+            {
+                .desc = "Show Interfaces",
+                .cmd = "netsh wlan show interfaces",
+                .execute = run_interfaces,
+            },
+            {
+                .desc = "Show Profiles",
+                .cmd = "netsh wlan show profiles",
+                .execute = run_profiles,
+            },
+            {
+                .desc = "Show Drivers",
+                .cmd = "netsh wlan show drivers",
+                .execute = run_drivers,
+            },
+            {
+                .desc = "Show Networks",
+                .cmd = "netsh wlan show networks",
+                .execute = run_networks,
+            },
+            {
+                .desc = "Dump Saved Profile Passwords",
+                .cmd = NULL,
+                .execute = run_dump_profiles,
+            },
+            {
+                .desc = "Show Hosted Network",
+                .cmd = "netsh wlan show hostednetwork",
+                .execute = run_hostednetwork,
+            },
+            {
+                .desc = "Show Auto Config",
+                .cmd = "netsh wlan show autoconfig",
+                .execute = run_autoconfig,
+            },
+            {
+                .desc = "Show Filters",
+                .cmd = "netsh wlan show filters",
+                .execute = run_filters,
+            },
         };
 
-        size_t num_cmds = sizeof(commands) / sizeof(commands[0]);
+        size_t i;
+        size_t total = sizeof(commands) / sizeof(commands[0]);
+
+        /* Remove old output */
         remove(OUTPUT_FILE);
 
-        for (size_t i = 0; i < num_cmds; ++i)
+        for (i = 0; i < total; ++i)
                 commands[i].execute(&commands[i]);
 
         return 0;

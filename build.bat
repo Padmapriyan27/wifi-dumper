@@ -19,11 +19,11 @@ echo Compiling...
 
 if %ERRORLEVEL% EQU 0 (
     echo.
-    echo ✅ Build successful!
+    echo Build successful!
     echo Output: %OUT%
 ) else (
     echo.
-    echo ❌ Build failed!
+    echo Build failed!
 )
 
 endlocal

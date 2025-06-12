@@ -12,7 +12,7 @@ A modular Wi-Fi credential dumping tool for Windows written in C — built using
 ## 🔧 Requirements
 
 - Windows OS
-- Admin privileges (for password dump) (Optional)
+- Admin privileges [for password dump] (Optional)
 - `gcc` (via MinGW, TDM-GCC, or MSYS2)
 
 ## 🚀 Build Instructions
@@ -43,7 +43,7 @@ wifi_dumper.exe
 It generates:
 
 ```
-wifi_dump.txt
+result.txt
 ```
 
 ## 📌 Notes
